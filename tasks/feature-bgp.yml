@@ -1,0 +1,39 @@
+- import_tasks: generic-template-workflow/render.yml
+  run_once: True
+  tags: feature-bgp,feature-bgp:render,render
+  vars:
+    template_list: "{{ FeatureTemplates['feature-bgp'] }}"
+    template: sdwan-templates/feature-bgp.j2
+    folder: feature-bgp
+  when: FeatureTemplates['feature-bgp'] is defined
+
+- import_tasks: generic-template-workflow/init-datastructures.yml
+  run_once: True
+  tags: feature-bgp,feature-bgp:create,feature-bgp:delete,feature-bgp:debug
+  vars:
+    template_list: "{{ FeatureTemplates['feature-bgp'] }}"
+    template: sdwan-templates/feature-bgp.j2
+    folder: feature-bgp
+  when: FeatureTemplates['feature-bgp'] is defined
+
+- import_tasks: generic-template-workflow/pretty-json.yml
+  run_once: True
+  tags: feature-bgp,feature-bgp:create
+  vars:
+    folder: feature-bgp
+  when: FeatureTemplates['feature-bgp'] is defined
+
+- import_tasks: generic-template-workflow/create-template-aggregate.yml
+  run_once: True
+  tags: feature-bgp,feature-bgp:create
+  when: FeatureTemplates['feature-bgp'] is defined
+
+- import_tasks: generic-template-workflow/create-template-single.yml
+  run_once: True
+  tags: feature-bgp:debug,never
+  when: FeatureTemplates['feature-bgp'] is defined
+
+- import_tasks: generic-template-workflow/delete-template-aggregate.yml
+  run_once: True
+  tags: feature-bgp,feature-bgp:delete
+  when: FeatureTemplates['feature-bgp'] is defined
